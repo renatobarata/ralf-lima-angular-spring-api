@@ -5,6 +5,8 @@ import br.com.projeto.api.repositorio.Repositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @CrossOrigin(origins = "*")
 public class Controle {
@@ -29,6 +31,14 @@ public class Controle {
 
     @DeleteMapping("/{codigo}")
     public void remover(@PathVariable Long codigo) {
-        acao.deleteById(codigo);
+
+        // Obtêm um objeto completo do tipo Optional<?>
+        Optional<Cliente> objOptional = acao.findById(codigo);
+
+        // Converte o objeto Optional<?> em um objeto do tipo cliente
+        Cliente cliente = objOptional.get();
+
+        // Efetua a remoção
+        acao.delete(cliente);
     }
 }
